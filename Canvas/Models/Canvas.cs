@@ -9,14 +9,22 @@ namespace CanvasApplication.Models
         char Color { get; set; }
         Point Point { get; }
     }
-    public class BucketFillParameters : IBucketFillParamerters
+    public class BucketFillParameters : IBucketFillParamerters, IEquatable<IBucketFillParamerters>
     {      
-        public uint X { get; set; }
-        public uint Y { get; set; }
         public char Color { get; set; }
 
-        //adjust as coordinates are passed 1-based but the underlying canvas expects them 0-based
-        public Point Point { get { return new Point(X - 1, Y - 1); } }
+        public Point Point { get; set;}
+
+        public bool Equals(IBucketFillParamerters other)
+        {
+            return Point == other.Point && Color == other.Color;
+        }
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as IBucketFillParamerters);
+        }
+
+
     }
 
     public interface ICanvasDimentions

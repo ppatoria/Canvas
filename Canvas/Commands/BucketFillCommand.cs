@@ -13,15 +13,15 @@ namespace CanvasApplication.Commands
         public IBucketFillParamerters Parse(IEnumerable<string> input)
         {
             Contract.Requires(input != null, "input can't be null");
-            Contract.Requires(input.Count() < 3, "This command expects 3 arguments but only received less than that.");
+            Contract.Requires(input.Count() == 3, "This command expects 3 arguments but only received less than that.");
             Contract.Ensures(Contract.Result<IBucketFillParamerters>() != null);
 
             try
             {
                 return new BucketFillParameters
                 {
-                    X = uint.Parse(input.ElementAt(0)),
-                    Y = uint.Parse(input.ElementAt(1)),
+                    //adjust as coordinates are passed 1-based but the underlying canvas expects them 0-based
+                    Point = new Point(uint.Parse(input.ElementAt(0)) -1 ,uint.Parse(input.ElementAt(1)) -1),
                     Color = char.Parse(input.ElementAt(2))
                 };
             }
@@ -42,7 +42,9 @@ namespace CanvasApplication.Commands
         {
             Contract.Requires(canvas != null, "No canvas exist. Please create one then try again.");
 
-            canvas.BucketFill( new BucketFillParameterParser().Parse(Input));
+            var bucketFillParameters = new BucketFillParameterParser().Parse(Input);
+
+            canvas.BucketFill(bucketFillParameters);
         }
     }
 }
