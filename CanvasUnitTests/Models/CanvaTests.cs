@@ -43,8 +43,7 @@ namespace CanvasApplication.UnitTests.Models
 
             Action test = () => canvas.DrawLine(line);
 
-            test.Should().Throw<InvalidLineException>()
-                .WithMessage("Only horizontal and vertical lines are currently supported");
+            test.Should().Throw<InvalidLineException>();
         }
 
         
@@ -75,8 +74,7 @@ namespace CanvasApplication.UnitTests.Models
 
             Action test = () => canvas.DrawLine(line);
 
-            test.Should().Throw<OutOfBoundsException>()
-                .WithMessage("This item exceeds the canvas boundaries and cannot be drawn");
+            test.Should().Throw<OutOfBoundsException>();
         }
     }
 
@@ -92,8 +90,7 @@ namespace CanvasApplication.UnitTests.Models
 
             Action test = () => canvas.DrawRectangle(rectangle);
 
-            test.Should().Throw<OutOfBoundsException>()
-                .WithMessage("This item exceeds the canvas boundaries and cannot be drawn");
+            test.Should().Throw<OutOfBoundsException>();
         }
 
         
@@ -131,8 +128,7 @@ namespace CanvasApplication.UnitTests.Models
 
             Action test = () => canvas.BucketFill(new BucketFillParameters { Point = new Point(1,150), Color = 'f' });
 
-            test.Should().Throw<OutOfBoundsException>()
-                .WithMessage("The target point is out of the canvas boundaries");
+            test.Should().Throw<OutOfBoundsException>();
         }
 
         [Test]
@@ -315,8 +311,7 @@ namespace CanvasApplication.UnitTests.Models
 
             Action test = () => canvas.Delete(new Point(1, 150));
 
-            test.Should().Throw<OutOfBoundsException>()
-                .WithMessage("The target point is out of the canvas boundaries");
+            test.Should().Throw<OutOfBoundsException>();
         }
 
         [Test]

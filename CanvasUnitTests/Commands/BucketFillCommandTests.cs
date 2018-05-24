@@ -10,12 +10,6 @@ namespace CanvasApplication.UnitTests.Commands
     [TestFixture]
     public class BucketFillCommand_Should
     {
-        [Test]
-        public void Throws_On_Creation_If_Null_Arg()
-        {
-            Action test = () => new BucketFillCommand();            
-            test.Should().Throw<ArgumentNullException>();
-        }
 
         [Test]
         public void Throw_When_Null_Argument()
@@ -39,8 +33,7 @@ namespace CanvasApplication.UnitTests.Commands
             command.Input = new string[] { "1", "2" };
             Action test = () => command.Execute(canvas);
 
-            test.Should().Throw<ArgumentException>()
-                .WithMessage("This command expects 3 arguments but only received 2");
+            test.Should().Throw<ArgumentException>();
         }
 
         
@@ -56,8 +49,7 @@ namespace CanvasApplication.UnitTests.Commands
             command.Input = new string[] { arg1, arg2, arg3 };
             Action test = () => command.Execute(canvas);
 
-            test.Should().Throw<ArgumentException>()
-                .WithMessage("There are some invalid arguments. The 2 first arguments should be positive integer and the last one should be an alphanumerical character");
+            test.Should().Throw<ArgumentException>();
         }
 
         [Test]
@@ -68,8 +60,7 @@ namespace CanvasApplication.UnitTests.Commands
             command.Input = new string[] { "1", "1", "c" };
             Action test = () => command.Execute(null);
 
-            test.Should().Throw<ArgumentException>()
-                .WithMessage("No canvas exist. Please create one then try again.");
+            test.Should().Throw<ArgumentNullException>();
         }
 
         [Test]

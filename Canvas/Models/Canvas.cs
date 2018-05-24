@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics.Contracts;
 
 namespace CanvasApplication.Models
 {
@@ -17,13 +18,12 @@ namespace CanvasApplication.Models
 
         public bool Equals(IBucketFillParamerters other)
         {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
             return Point == other.Point && Color == other.Color;
         }
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as IBucketFillParamerters);
-        }
-
+        public override bool Equals(object obj) => Equals(obj as IBucketFillParamerters);
+        public override int GetHashCode() => Point.GetHashCode() ^ Color.GetHashCode(); 
 
     }
 
@@ -62,13 +62,10 @@ namespace CanvasApplication.Models
                     Cells[i, j] = new CanvasCell(CanvasCellContentType.Empty, ' ');
         }
 
+        [Pure]
+        //public bool IsEitherHorizontalOrVertical(Line line) => line.IsHorizontal || line.IsVertical; 
         public void DrawLine(Line line)
         {
-            if (!line.IsHorizontal && !line.IsVertical)
-                throw new InvalidLineException();
-
-            if (PointIsOutOfBounds(line.Origin) || PointIsOutOfBounds(line.End))
-                throw new OutOfBoundsException("This item exceeds the canvas boundaries and cannot be drawn");
 
             SaveState();
 
@@ -84,12 +81,6 @@ namespace CanvasApplication.Models
 
         public void DrawRectangle(Rectangle rectangle)
         {
-            if (PointIsOutOfBounds(rectangle.UpperLeft)
-             || PointIsOutOfBounds(rectangle.UpperRight)
-             || PointIsOutOfBounds(rectangle.LowerLeft)
-             || PointIsOutOfBounds(rectangle.LowerRight)
-             )
-                throw new OutOfBoundsException("This item exceeds the canvas boundaries and cannot be drawn");
 
             SaveState();
 
@@ -99,10 +90,8 @@ namespace CanvasApplication.Models
                 InnerDrawLine(line);
         }
 
-        private bool PointIsOutOfBounds(Point point)
-        {
-            return point.X >= Width || point.Y >= Height;
-        }
+        [Pure]
+        public bool PointIsOutOfBounds(Point point) =>  point.X >= Width || point.Y >= Height;
 
         private void DrawPoint(Point point)
         {
@@ -112,8 +101,6 @@ namespace CanvasApplication.Models
 
         public void BucketFill(IBucketFillParamerters fillParameters)
         {
-            if (PointIsOutOfBounds(fillParameters.Point))
-                throw new OutOfBoundsException("The target point is out of the canvas boundaries");
 
             SaveState();
 
@@ -166,8 +153,6 @@ namespace CanvasApplication.Models
 
         public void Delete(Point target)
         {
-            if (PointIsOutOfBounds(target))
-                throw new OutOfBoundsException("The target point is out of the canvas boundaries");
 
             SaveState();
 
@@ -244,9 +229,7 @@ namespace CanvasApplication.Models
 
     public class InvalidLineException : Exception
     {
-        public InvalidLineException()
-            : base("Only horizontal and vertical lines are currently supported")
-        { }
+        public InvalidLineException(string msg) : base(msg) { }
     }
 
     public class OutOfBoundsException : Exception

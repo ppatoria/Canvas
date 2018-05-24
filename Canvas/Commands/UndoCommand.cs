@@ -1,4 +1,5 @@
-﻿using CanvasApplication.Models;
+﻿using System;
+using CanvasApplication.Models;
 using CommandLine;
 using System.Diagnostics.Contracts;
 
@@ -9,7 +10,6 @@ namespace CanvasApplication.Commands
     {
         public void Execute(ICanvas canvas)
         {
-            Contract.Requires(canvas != null,"No canvas exist. Please create one then try again.");
             canvas.Undo();
         }
     }

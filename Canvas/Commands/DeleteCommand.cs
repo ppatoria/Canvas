@@ -9,14 +9,21 @@ namespace CanvasApplication.Commands
 {
     public class PointParser
     {
-        public Point Parse(IEnumerable<object> input)
+        public Point Parse(IEnumerable<string> input)
         {
-            Contract.Requires(input != null, "options can't be null");
-            Contract.Requires(input.Count() < 2, "This command expects 2 arguments but received less than that");
-            Contract.Ensures(Contract.Result<Point>() != null);
+            Contract.Requires<ArgumentNullException>(input != null, "options can't be null");
+            Contract.Requires<ArgumentException>(input.Count() == 2, "This command expects 2 arguments but received less than that");
+            //Contract.Ensures(Contract.Result<Point>() != null); TODO use invariant in point class instead
 
-            //adjust as coordinates are passed 1-based but the underlying canvas expects them 0-based
-            return new Point((uint)input.ElementAt(0) - 1, (uint)input.ElementAt(1) - 1);
+            try
+            {
+                //adjust as coordinates are passed 1-based but the underlying canvas expects them 0-based
+                return new Point(uint.Parse(input.ElementAt(0)) - 1, uint.Parse(input.ElementAt(1)) - 1);
+            }
+            catch(FormatException e)
+            {
+                throw new ArgumentException("There is some invalid arguments. Both arguments should be positive integers", e);
+            }
         }
     }
 
@@ -28,8 +35,6 @@ namespace CanvasApplication.Commands
 
         public void Execute(ICanvas canvas)
         {            
-            Contract.Requires(canvas == null, "No canvas exist. Please create one then try again.");
-
             canvas.Delete(new PointParser().Parse(Input));
         }
     }

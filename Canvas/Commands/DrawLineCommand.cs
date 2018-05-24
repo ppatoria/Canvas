@@ -21,15 +21,26 @@ namespace CanvasApplication.Commands
 
     public class CoordinateParser
     {
-        public Coordinates Parse(IEnumerable<object> input)
+        public Coordinates Parse(IEnumerable<string> input)
         {
-            Contract.Requires(input != null, "options can't be null");
-            Contract.Requires(input.Count() < 4, "This command expects 4 arguments but received less than that.");
+            Contract.Requires<ArgumentNullException>(input != null, "options can't be null");
+            Contract.Requires<ArgumentException>(input.Count() == 4, "This command expects 4 arguments but received less than that.");
             Contract.Ensures(Contract.Result<Coordinates>() != null);
 
-            return new Coordinates {    X1 = (uint)input.ElementAt(0), Y1 = (uint)input.ElementAt(1),
-                                            X2 = (uint)input.ElementAt(2), Y2 = (uint)input.ElementAt(3) }; // TODO check working
-
+            try
+            {
+                return new Coordinates
+                {
+                    X1 = (uint.Parse(input.ElementAt(0))),
+                    Y1 = (uint.Parse(input.ElementAt(1))),
+                    X2 = (uint.Parse(input.ElementAt(2))),
+                    Y2 = (uint.Parse(input.ElementAt(3)))
+                }; 
+            }
+            catch(Exception e)
+            {
+                throw new ArgumentException("There is some invalid arguments.All 4 arguments should be positive integers", e);
+            }
         }
     }
     
@@ -41,8 +52,6 @@ namespace CanvasApplication.Commands
 
         public void Execute(ICanvas canvas)
         {
-            Contract.Requires(canvas == null, "No canvas exist. Please create one then try again.");
-
             var lineCoordinates = new CoordinateParser().Parse(Input);
             var line = new Line(lineCoordinates.StartPoint(), lineCoordinates.EndPoint());
             canvas.DrawLine(line);

@@ -10,13 +10,6 @@ namespace CS.CanvaApp.UnitTests.Commands
     [TestFixture]
     public class UndoCommand_Should
     {
-        [Test]
-        public void Throws_On_Creation_If_Null_Arg()
-        {
-            Action test = () => new UndoCommand();
-
-            test.Should().Throw<ArgumentNullException>();
-        }
 
         [Test]
         public void Throws_When_No_Canvas_Exist()
@@ -25,8 +18,7 @@ namespace CS.CanvaApp.UnitTests.Commands
 
             Action test = () => command.Execute(null);
 
-            test.Should().Throw<ArgumentException>()
-                .WithMessage("No canvas exist. Please create one then try again.");
+            test.Should().Throw<ArgumentNullException>();
         }
 
         [Test]

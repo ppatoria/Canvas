@@ -26,7 +26,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
-    <CodeContractsRuntimeThrowOnFailure>False</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
     <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
     <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
     <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
@@ -97,9 +97,13 @@
     <Compile Include="Commands\DeleteCommand.cs" />
     <Compile Include="Commands\DrawLineCommand.cs" />
     <Compile Include="Commands\DrawRectangleCommand.cs" />
-    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\IQuitCommand.cs" />
+    <Compile Include="Commands\ICreateCommand.cs" />
+    <Compile Include="Commands\IDrawCommand.cs" />
+    <Compile Include="Commands\IUndoCommand.cs" />
     <Compile Include="Commands\QuitCommand.cs" />
     <Compile Include="Commands\UndoCommand.cs" />
+    <Compile Include="Controller\IController.cs" />
     <Compile Include="Models\Canvas.cs" />
     <Compile Include="Models\ICanvas.cs" />
     <Compile Include="Models\Line.cs" />

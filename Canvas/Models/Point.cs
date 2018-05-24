@@ -1,8 +1,7 @@
-﻿namespace CanvasApplication.Models
+﻿using System;
+namespace CanvasApplication.Models
 {
-#pragma warning disable CS0660, CS0661 //no need to overrides Equals() and GetHasCode() as == and !== use their default implementation
-
-    public struct Point
+    public struct Point : IEquatable<Point>
     {
         public uint X { get; private set; }
         public uint Y { get; private set; }
@@ -24,7 +23,17 @@
             return !(p1 == p2);
         }
 
+        public bool Equals(Point other)
+        {
+            return X == other.X && Y == other.Y;
+        }
+        public override bool Equals(object obj)
+        {
+            return Equals((Point)obj);
+        }
+        public override int GetHashCode()
+        {
+            return (int)X ^ (int)Y;
+        }
     }
-
-#pragma warning restore CS0660, CS0661
 }

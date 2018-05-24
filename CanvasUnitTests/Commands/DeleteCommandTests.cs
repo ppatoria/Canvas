@@ -10,13 +10,6 @@ namespace CanvasApplication.UnitTests.Commands
     [TestFixture]
     public class DeleteCommand_Should
     {
-        [Test]
-        public void Throws_On_Creation_When_Null_Arg()
-        {
-            Action test = () => new DeleteCommand();
-
-            test.Should().Throw<ArgumentNullException>();
-        }
 
         [Test]
         public void Throw_When_Null_Argument()
@@ -40,8 +33,7 @@ namespace CanvasApplication.UnitTests.Commands
             command.Input = new string[] { "1" }; 
             Action test = () => command.Execute(canvas);
 
-            test.Should().Throw<ArgumentException>()
-                .WithMessage("This command expects 2 arguments but only received 1");
+            test.Should().Throw<ArgumentException>();
         }
 
         
@@ -56,8 +48,7 @@ namespace CanvasApplication.UnitTests.Commands
             command.Input = new string[] { arg1, arg2 };
             Action test = () => command.Execute(canvas);
 
-            test.Should().Throw<ArgumentException>()
-                .WithMessage("There are some invalid arguments. The 2 arguments should be positive integers");
+            test.Should().Throw<ArgumentException>();
         }
 
         [Test]
@@ -68,8 +59,7 @@ namespace CanvasApplication.UnitTests.Commands
             command.Input = new string[] { "1", "1" };
             Action test = () => command.Execute(null);
 
-            test.Should().Throw<ArgumentException>()
-                .WithMessage("No canvas exist. Please create one then try again.");
+            test.Should().Throw<ArgumentNullException>();
         }
 
         [Test]

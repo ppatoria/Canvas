@@ -12,8 +12,8 @@ namespace CanvasApplication.Commands
     {
         public IBucketFillParamerters Parse(IEnumerable<string> input)
         {
-            Contract.Requires(input != null, "input can't be null");
-            Contract.Requires(input.Count() == 3, "This command expects 3 arguments but only received less than that.");
+            Contract.Requires<ArgumentNullException>(input != null, "input can't be null");
+            Contract.Requires<ArgumentException>(input.Count() == 3, "This command expects 3 arguments but only received less than that.");
             Contract.Ensures(Contract.Result<IBucketFillParamerters>() != null);
 
             try
@@ -40,8 +40,6 @@ namespace CanvasApplication.Commands
 
         public void Execute(ICanvas canvas)
         {
-            Contract.Requires(canvas != null, "No canvas exist. Please create one then try again.");
-
             var bucketFillParameters = new BucketFillParameterParser().Parse(Input);
 
             canvas.BucketFill(bucketFillParameters);
