@@ -13,7 +13,6 @@ namespace CanvasApplication.Commands
         {
             Contract.Requires<ArgumentNullException>(input != null, "options can't be null");
             Contract.Requires<ArgumentException>(input.Count() == 2, "This command expects 2 arguments but received less than that");
-            //Contract.Ensures(Contract.Result<Point>() != null); TODO use invariant in point class instead
 
             try
             {

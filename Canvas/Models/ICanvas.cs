@@ -6,7 +6,6 @@ namespace CanvasApplication.Models
     [Pure]
     public static class ContractChecks
     {
-        // TODO try making this internal class
         public static bool IsPointOutOfBounds(this Point point, ICanvas canvas)
         {
             Contract.Requires<ArgumentNullException>(canvas != null);
@@ -41,20 +40,9 @@ namespace CanvasApplication.Models
             Contract.Requires<InvalidLineException>(line.IsHorizontal || line.IsVertical, "Only horizontal and vertical lines are currently supported");
             Contract.Requires<OutOfBoundsException>(!line.Origin.IsPointOutOfBounds(this) && !line.End.IsPointOutOfBounds(this),
                 "This item exceeds the canvas boundaries and cannot be drawn");
-            // TODO try better solution either make a separate interface or this check or add method in ICanvas
-
-            //Contract.Requires<OutOfBoundsException>(!PointIsOutOfBounds(line.Origin) && !PointIsOutOfBounds(line.End), 
-            //    "This item exceeds the canvas boundaries and cannot be drawn");
-
-            // TODO check how weather the method need to be abstract ot explicit and how it works.
         }
         public void DrawRectangle(Rectangle rectangle)
         {
-            //Contract.Requires<OutOfBoundsException>(!PointIsOutOfBounds(rectangle.UpperLeft)
-            // && !PointIsOutOfBounds(rectangle.UpperRight)
-            // && !PointIsOutOfBounds(rectangle.LowerLeft)
-            // && !PointIsOutOfBounds(rectangle.LowerRight)
-            // ,"This item exceeds the canvas boundaries and cannot be drawn");
             Contract.Requires<OutOfBoundsException>(
                 !rectangle.UpperLeft.IsPointOutOfBounds(this)
              && !rectangle.UpperRight.IsPointOutOfBounds(this)
